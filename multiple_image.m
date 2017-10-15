@@ -17,7 +17,7 @@ for i = 1:(length(tifFiles)-1)
     preProcImage1 = Pixelate(EdgeDetector(Image1,10000),[1,1]);
     preProcImage2 = Pixelate(EdgeDetector(Image2,10000),[1,1]);
     [shiftVect,Sim] = FindOverlap(preProcImage1,preProcImage2,[1,1],[0.1,0.1]);
-   
+   shiftVect
     cutIm =  im_cut(fullFileName2,shiftVect(1,:));
     subplot(2,2,3); imshow(cutIm)
 end
