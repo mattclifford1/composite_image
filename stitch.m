@@ -1,7 +1,8 @@
-function stitch(Im1, Im2, V)
+function stitch(Im1, Im2, V1)
 % assumes Im1 is to the left of Im2
+V = V1 - size(Im2);
 
-Im2 = compareOverlap(Im1, Im2, V); %if you want overlap brightness correction
+% Im2 = compareOverlap(Im1, Im2, V1); %if you want overlap brightness correction
 
 s1 = size(Im1);
 s2 = size(Im2);
