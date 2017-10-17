@@ -1,10 +1,10 @@
 function ImR = compareOverlap(Im1, Im2, V)
 % assumes Im1 is to the left of Im2
+V = V - size(Im2);
 ImR = Im2;
-if ischar(Im1) == 1
-    Im = imread(Im);  %read in image
-end
+
 s1 = size(Im1); s2 = size(Im2);
+
 
 if V(1) > 0 
     Im1 = Im1(V(1):end, V(2):end);
