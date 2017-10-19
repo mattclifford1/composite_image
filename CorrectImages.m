@@ -2,11 +2,13 @@ FileMatrix = readFiles();
 EM = exposureMatrix();
 Loc = findError(EM);
 ErrorNum = size(Loc,1);
+
 for i=1:ErrorNum
-    Corrected = NormaliseImage(FileMatrix,Loc(i,1),Loc(i,2));
+    row = Loc(i,1);
+    col = Loc(i,2);
+    Corrected = NormaliseImage(FileMatrix,row,col);
     figure;
-    Name = findFullName(FileMatrix(Loc(i,1),Loc(i,2)));
-    title(Name);
+    Name = findFullName(FileMatrix(row,col))
     imshow(Corrected);
 end
 
