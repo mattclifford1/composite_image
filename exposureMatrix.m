@@ -11,7 +11,7 @@ for i=1:row
         if finalMatrix(i,j)~=0
             expoMatrix(i,j)=mean2(imread(strcat('./images/',findFullName(finalMatrix(i,j)))));
         else
-            expoMatrix(i,j)=1;
+            expoMatrix(i,j)=0;
         end
     end
 end
