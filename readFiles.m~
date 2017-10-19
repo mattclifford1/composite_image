@@ -131,6 +131,7 @@ frameListF=sort(str2num(char(frameListF)));
 finalMatrix=[];
 Col=1;
 Row=1;
+size(frameList)
 for i=1:Yrow
     if i==Yrow
         finalMatrix(Row,Col)=frameListF(i);

@@ -1,6 +1,6 @@
 close all
 myFolder = strcat(pwd,'/test_images');
-filePattern = fullfile(myFolder, '*.jpg');
+% filePattern = fullfile(myFolder, '*.jpg');
 filePattern = fullfile(myFolder, '*.tif');
 tifFiles = dir(filePattern);
 for i = 1:(length(tifFiles)-2)
@@ -27,15 +27,16 @@ end
 shiftVect1 = [460,560]; 
 shiftVect2 = [452,606];
 
-[joint, vertShift, horiShift] = stitch(Image1, Image2, shiftVect1, 1,, 0, 0);
+[joint, vertShift, horiShift] = stitch(Image1, Image2, shiftVect1, 1, 0, 0);
 close all
-stitch(joint, Image3, shiftVect2, 1, vertShift, horiShift);
+[joint, vertShift, horiShift] = stitch(joint, Image3, shiftVect2, 1, vertShift, horiShift);
+subplot(2,1,1); imshow(joint);
 
-figure
 [Render1,Render2] = MergeGrad(Image1, Image2,shiftVect1);
 [joint, vertShift, horiShift] = stitch(Render1, Render2, shiftVect1, 1, 0, 0);
-% [RenderJoint, Render3] = MergeGrad(joint, Image3, shiftVect2);
-stitch(RenderJoint, Render3, shiftVect2, 1, 1, vertShift, horiShift);
+[RenderJoint, Render3] = MergeGrad(Image2, Image3, shiftVect2);
+[joint, vertShift, horiShift] = stitch(joint, Render3, shiftVect2, 1, vertShift, horiShift);
+subplot(2,1,2); imshow(joint);
 
 
 
