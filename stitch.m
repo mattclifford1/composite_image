@@ -7,11 +7,11 @@ if Correct == 1
 %     Im2 = compareOverlap(Im1, Im2, V1); %if you want overlap brightness correction
 end
 % if ImBottom < 1
-    V(1) = V(1) + ImBottom;
+    V(1) = V(1); %+ ImBottom
 % end
 
 VB = V(2) + ImEnd;
-VA = V(1) + ImBottom;
+VA = V(1); %+ ImBottom;
 if V(1) > 0 
     Im1(V(1):end, V(2):end) = 0;
     row = s1(1) + V(1) - 1;
@@ -19,7 +19,8 @@ end
 if V(1) < 0
     Va = abs(V);
     row = s1(1) + Va(1) - 1;
-    Im1(1:(s1(1) -Va(1) + 1), VB:end) = 0;    
+%     Im1(1:(s1(1) -Va(1) + 1), VB:end) = 0;  
+%     Im1(1:(s1(1) - ImBottom), VB:end) = 0;  
 end
 col = s1(2) + V(2) - 1;
 joint = zeros(row,col); 
