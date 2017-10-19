@@ -1,12 +1,12 @@
-function [ corrected ] = NormaliseImage( finalMatrix, xcoord, ycoord )
+function [ corrected ] = NormaliseImage( finalMatrix, col, row )
 %NORMALISEIMAGE Histogram match a source image to a reference
     %takes the finalMatrix from readfiles, and the x and y coordinates
     %of the image to normalise. The function acutomatically finds the
     %files in the surrounding neighbourhood and normalises to that
     reference = 0;
-    for i = xcoord-3:xcoord+3
-        if i >= 1 && i <= size(finalMatrix,2) && finalMatrix(ycoord,i) ~= 0 && i ~= xcoord
-            fileName = findFullName(finalMatrix(ycoord,i));
+    for i = col-3:col+3
+        if i >= 1 && i <= size(finalMatrix,2) && finalMatrix(row,i) ~= 0 && i ~= col
+            fileName = findFullName(finalMatrix(row,i));
             Im = imread(strcat('./images/',fileName));
             if reference == 0
                 reference = Im;
@@ -15,9 +15,12 @@ function [ corrected ] = NormaliseImage( finalMatrix, xcoord, ycoord )
             end
         end
     end
-    fileName = findFullName(finalMatrix(ycoord,xcoord));
+    fileName = findFullName(finalMatrix(row,col));
     source = imread(strcat('./images/',fileName));
+%     figure;
+%     imshow(source);
     
-    corrected = im2uint16(histeq(im2double(source), hist(im2double(reference(:)))));
+    corrected = im2uint16(histeq(im2double(source), hist(im2double(reference(:)),...
+    max(max(reference))-min(min(reference)))));
 end
 
