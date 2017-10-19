@@ -6,13 +6,13 @@ i = v(1);
 j = v(2);
 
 if i > size(I1,1)    
-    disp(1)
+%     disp(1)
     T1Sx = i - size(I2,1);
     T1Fx = size(I1,1);
     T2Sx = 1;
     T2Fx = size(I1,1) + size(I2,1) - i + 1;   
 else
-    disp(2)
+%     disp(2)
     T1Sx = 1;
     T1Fx = i;
     T2Sx = size(I2,1) - i + 1;
@@ -20,13 +20,13 @@ else
 end
 
 if j > size(I1,2)
-    disp(3)
+%     disp(3)
     T1Sy = j - size(I2,2);
     T1Fy = size(I1,2);
     T2Sy = 1; 
     T2Fy = size(I1,2) + size(I2,2) - j + 1;
 else
-    disp(4)
+%     disp(4)
     T1Sy = 1;
     T1Fy = j;  
     T2Sy = size(I2,2) - j + 1; 
@@ -55,8 +55,8 @@ omega2 = I2(T2Sx:T2Fx,T2Sy:T2Fy);
 
 e = round(abs(double(omega1) - double(omega2)));
 
-imshow(uint16(e));
-disp(max(max(e)))
+% imshow(uint16(e));
+% disp(max(max(e)))
 Ev = zeros(size(e,1),size(e,2),2);
 
 for y = 2:size(e,1)

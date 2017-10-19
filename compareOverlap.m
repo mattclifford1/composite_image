@@ -17,7 +17,7 @@ if V(1) < 0
 end
 Im2 = int16(Im2); Im1 = int16(Im1); 
 Diff = Im2 - Im1;
-d = mean(mean(Diff));  %%% histeq
+d = mean2(Diff);  %%% histeq
 ImR = ImR - d;
 % figure
 % subplot(2,2,1); imshow(Im1); subplot(2,2,2); imshow(Im2)
