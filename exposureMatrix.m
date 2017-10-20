@@ -2,7 +2,6 @@ function expoMatrix=exposureMatrix()
 %Outputs the matrix of exposure
 [finalMatrix,frameList]=readFiles();
 
-
 [row,col]=size(finalMatrix);
 %expoMatrix=ones(row,col);
 
