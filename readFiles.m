@@ -1,5 +1,6 @@
 function [finalMatrix,NotSortedFrameList]=readFiles()
 
+
 %{
 Brief explanation of the process:
 
@@ -26,8 +27,11 @@ ever need it in the future
 %dataSet is a folder which contains all 250 images 
 %make sure this matlab file (readFiles.m) is in the same directory as the dataSet folder
 
-fl= dir('./images/*.tif');   %list of all files with .tif extension
-%cd ..
+fl= dir('./images/*.tif');  %list of all files with .tif extension
+
+fl(112)=[]; %This removes frame 4 from the list because it the same as frame 2
+
+
 
 flTotalLength=length(fl);
 mySwitchX=0;
@@ -83,12 +87,15 @@ end
 
 %now that we have the relevant information, we need to get rid of the
 %spacings, i.e:  ___21890824_____ becomes:  21890824
+
+%Initialisation
 [Xrow,Xcol]=size(Xcoord);
 [Yrow,Ycol]=size(Ycoord);
 [Framerow,Framecol]=size(frameList);
 XFcoord=[];
 YFcoord=[];
 frameListF=[];
+
 %Clean frameList
 for i=1:Framerow
     k=0;
@@ -122,8 +129,12 @@ for i=1:Yrow
 end
 
 
-XFcoord=str2num(char(XFcoord));
-YFcoord=sort(str2num(char(YFcoord)),'descend');
+
+%SORTING
+myXFcoord=str2num(char(XFcoord));
+myYFcoord=str2num(char(YFcoord));
+XFcoordSorted=sort(str2num(char(XFcoord)),'descend');
+YFcoordSorted=sort(str2num(char(YFcoord)),'descend');
 NotSortedFrameList=str2num(char(frameListF));
 frameListF=sort(str2num(char(frameListF)));
 
@@ -137,7 +148,7 @@ for i=1:Yrow
         preFinalMatrix(Row,Col)=frameListF(i);
         break
     end
-    if abs(YFcoord(i)-YFcoord(i+1))>1000
+    if abs(YFcoordSorted(i)-YFcoordSorted(i+1))>1000
         preFinalMatrix(Row,Col)=frameListF(i);
         Row=Row+1;
         Col=1;
@@ -173,6 +184,9 @@ for i=1:finalRow
             finalMatrix(i,:)=sort(finalMatrix(i,:),'descend');
         end
 end
+
+%plot(myXFcoord,-1*myYFcoord,'.')
+
         
 
 end
