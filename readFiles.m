@@ -7,8 +7,9 @@ Brief explanation of the process:
 -extract frame number, x coord and y coord (by looping through every row of fl)
 and assign them to 3 lists (frameList, Xcoord and Ycoord)
 -clean these 3 lists from anything that isnt a number (spaces, symbols etc..)
--Make final matrix (based on the Y coordinate), if there's a sudden change
+-Make Prefinal matrix (based on the Y coordinate), if there's a sudden change
 in the Y, it means the microscope went up, so we go the next row
+-Make finalMatrix: sort the prefinal matrix
 
 
 Note:
@@ -127,24 +128,51 @@ NotSortedFrameList=str2num(char(frameListF));
 frameListF=sort(str2num(char(frameListF)));
 
 
-%Creating final matrix:
-finalMatrix=[];
+%Creating PreFinal matrix:
+preFinalMatrix=[];
 Col=1;
 Row=1;
 for i=1:Yrow
     if i==Yrow
-        finalMatrix(Row,Col)=frameListF(i);
+        preFinalMatrix(Row,Col)=frameListF(i);
         break
     end
     if abs(YFcoord(i)-YFcoord(i+1))>1000
-        finalMatrix(Row,Col)=frameListF(i);
+        preFinalMatrix(Row,Col)=frameListF(i);
         Row=Row+1;
         Col=1;
     else
-        finalMatrix(Row,Col)=frameListF(i);
+        preFinalMatrix(Row,Col)=frameListF(i);
         Col=Col+1;
     end
     
 end
+
+%Now the prefinal matrix has to be changed to the final matrix
+
+%finalMatrix Row initialisation
+[finalRow,finalCol]=size(preFinalMatrix);
+finalMatrix=ones(finalRow,finalCol);
+kk=finalRow;
+
+%finalMatrix Row changing
+for i=1:finalRow
+        finalMatrix(kk,:)=preFinalMatrix(i,:);
+        kk=kk-1;
+end
+%finalMatrix Col initialisation
+
+if mod(finalRow,2)==0
+    jj=1;
+else
+    jj=0;
+end
+%final Matrix Col changing
+for i=1:finalRow
+        if mod(i,2)==jj
+            finalMatrix(i,:)=sort(finalMatrix(i,:),'descend');
+        end
+end
+        
 
 end
