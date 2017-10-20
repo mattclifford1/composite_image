@@ -17,8 +17,8 @@ function [ corrected ] = NormaliseImage( finalMatrix, col, row )
     end
     fileName = findFullName(finalMatrix(row,col));
     source = imread(strcat('./images/',fileName));
-    figure;
-    imshow(source);
+%     figure;
+%     imshow(source);
     
     corrected = im2uint16(histeq(im2double(source), hist(im2double(reference(:)),...
     max(max(reference))-min(min(reference)))));
