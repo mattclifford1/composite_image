@@ -1,4 +1,4 @@
-function [ corrected ] = NormaliseImage( finalMatrix, col, row )
+function [ corrected ] = NormaliseImage( finalMatrix, row, col )
 %NORMALISEIMAGE Histogram match a source image to a reference
     %takes the finalMatrix from readfiles, and the x and y coordinates
     %of the image to normalise. The function acutomatically finds the
