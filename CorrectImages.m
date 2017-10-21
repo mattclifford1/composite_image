@@ -8,7 +8,7 @@ for i=1:ErrorNum
     col = Loc(i,2);
     Corrected = NormaliseImage(FileMatrix,row,col);
     figure;
-    Name = findFullName(FileMatrix(row,col))
+    Name = findFullName(FileMatrix(row,col));
     imshow(Corrected);
 end
 
