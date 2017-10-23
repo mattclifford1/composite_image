@@ -6,8 +6,7 @@ function label = NeighbourLabel(image1num,image2num,frames)
 %                             INTPUT:'image2num' appears in the composite
 %                             image with respect to frame
 %                             INTPUT:'image1num'.
-% REQUIRED:
-%   OPTIONAL:   DAmatrix.m  - If INPUT:'frames' is not given.
+% REQUIRED:     DAmatrix.m  - If INPUT:'frames' is not given.
 if      nargin==2
     frames = DAmatrix();
 end
