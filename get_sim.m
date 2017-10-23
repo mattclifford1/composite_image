@@ -14,4 +14,4 @@ if V(1) == 0
    A = im1( 1:end , s1(2) - V(2) + 1 :end );
    B = im2( 1:end, 1: V(2) ); 
 end
-sim = sum(sum(A.*B));
+sim = Similarity(A, B);

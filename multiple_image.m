@@ -1,5 +1,6 @@
 close all
 myFolder = strcat(pwd,'/test_images');
+myFolder = strcat(pwd,'/noGreyLines');
 % filePattern = fullfile(myFolder, '*.jpg');
 filePattern = fullfile(myFolder, '*.tif');
 tifFiles = dir(filePattern);
@@ -38,6 +39,10 @@ shiftVect3 = [452,606];
 [joint, vertShift, horiShift] = stitch(joint, Render4, shiftVect3, 1, vertShift, horiShift);
 % subplot(2,1,2); 
 imshow(joint);
+
+threshold = 10000;
+E1 = EdgeDetector(Image1,threshold);
+E2 = EdgeDetector(Image2,threshold);
 
 
 

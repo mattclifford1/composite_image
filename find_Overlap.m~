@@ -12,8 +12,17 @@ while sim < neighbour
     nRight = get_sim(im1, im2, V + [0, -1]);
     nLeft = get_sim(im1, im2, V + [0, 1]);
     neighbours = [nUp, nDown, nLeft, nRight];
-    neighbour = max(neighbours);
-    
+    neighbour, ind = max(neighbours);
+    if neighbour > sim
+        sim = neighbour
+        if ind == 1
+V = V + [-1, 0]
+end
+if ind == 2
+V = V + [1, 0]
+end
+if ind == 3
+V 
     sim
     neighbour
 end
