@@ -25,11 +25,13 @@ shiftVect1 = [460, 570];
 shiftVect2 = [460,560]; 
 shiftVect3 = [452,606];
 
-% [joint, vertShift, horiShift] = stitch(Image1, Image2, shiftVect1, 1, 0, 0);
+[joint1, vertShift, horiShift] = stitch(Image1, Image2, shiftVect1, 1, 0, 0);
 % % close all
 % % imshow(joint);
-% [joint, vertShift, horiShift] = stitch(joint, Image3, shiftVect2, 1, vertShift, horiShift);
-% subplot(2,1,1); imshow(joint);
+[joint1, vertShift, horiShift] = stitch(joint1, Image3, shiftVect2, 1, vertShift, horiShift);
+% subplot(2,1,1);
+[joint1, vertShift, horiShift] = stitch(joint1, Image4, shiftVect3, 1, vertShift, horiShift);
+imshow(joint1);
 
 [Render1,Render2] = MergeGrad(Image1, Image2,shiftVect1);
 [joint, vertShift, horiShift] = stitch(Render1, Render2, shiftVect1, 1, 0, 0);

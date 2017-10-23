@@ -4,10 +4,10 @@ s1 = size(Im1);
 s2 = size(Im2);
 V = V1 - s2;
 if Correct == 1
-%     Im2 = compareOverlap(Im1, Im2, V1); %if you want overlap brightness correction
+    Im2 = compareOverlap(Im1, Im2, V1); %if you want overlap brightness correction
 end
 % if ImBottom < 1
-    V(1) = V(1); %+ ImBottom
+%     V(1) = V(1); %+ ImBottom
 % end
 
 VB = V(2) + ImEnd;
