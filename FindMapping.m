@@ -1,4 +1,4 @@
-function [v,v2] = FindMapping(image1,image2,pixelSize,minArea,position)
+function [v,v2,Sim] = FindMapping(f1,f2,pixelSize,minArea)
 % INPUTS:       image1      - Reference image.
 %               image2      - Neighbour image.
 %               pixelSize   - A 1-2 vector representing the dimensions of
@@ -17,7 +17,13 @@ function [v,v2] = FindMapping(image1,image2,pixelSize,minArea,position)
 %               SizeOfOL.m
 %               Overlap.m
 %               Similarity.m
+%               NeighbourLabel.m
+%               BuildFrameNameLookup.m
+%               ./images/
 tic
+frames = BuildFrameNameLookup([4]);
+image1 = imread(['images/',frames.fileName{find(frames.number==f1,1)}]);
+image2 = imread(['images/',frames.fileName{find(frames.number==f2,1)}]);
 fSpace1 = EdgeDetector(image1,10000);
 fSpace2 = EdgeDetector(image2,10000);
 fSpace1pix = Pixelate(fSpace1,pixelSize);
@@ -29,19 +35,20 @@ index(:,1) = cumsum(index(:,2)==1);
 validOL = prod(SizeOfOL(index,pixelSize,...
         [size(fSpace1pix);size(fSpace2pix)]),2)>=...
         minArea*max(numel(fSpace1pix),numel(fSpace2pix));
-if      strcmp(position,'U')
+NL = NeighbourLabel(f1,f2);
+if      strcmp(NL,'U')
     validOL = validOL & index(:,1)*pixelSize(1)-size(fSpace2pix,1)/2<=...
             size(fSpace1pix,1)/2;
-elseif  strcmp(position,'D')
+elseif  strcmp(NL,'D')
     validOL = validOL & index(:,1)*pixelSize(1)-size(fSpace2pix,1)/2>=...
             size(fSpace1pix,1)/2;
-elseif  strcmp(position,'L')
+elseif  strcmp(NL,'L')
     validOL = validOL & index(:,2)*pixelSize(2)-size(fSpace2pix,2)/2<=...
             size(fSpace1pix,2)/2;
-elseif  strcmp(position,'R')
+elseif  strcmp(NL,'R')
     validOL = validOL & index(:,2)*pixelSize(2)-size(fSpace2pix,2)/2>=...
             size(fSpace1pix,2)/2;
-elseif  ~strcmp(position,'')
+elseif  ~strcmp(NL,'')
     errorMessage = 'Invalid neighbour label.';
     error(errorMessage);
 end
