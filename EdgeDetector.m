@@ -12,3 +12,5 @@ imageGx = imageGx(2:end-1,2:end-1);
 imageGy = imageGy(2:end-1,2:end-1);
 imageG = uint16((imageGx.^2+imageGy.^2).^0.5);
 imageG(imageG<=threshold)=uint16(0);
+imageG([1,end],:) = uint16(0);
+imageG(:,[1,end]) = uint16(0);

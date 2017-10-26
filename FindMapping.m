@@ -1,36 +1,38 @@
-function [v,v2,Sim] = FindMapping(f1,f2,pixelSize,minArea)
-% INPUTS:       image1      - Reference image.
-%               image2      - Neighbour image.
+function [v2,NL,Sim,OLSize] = FindMapping(f1,f2,threshold,pixelSize,minArea,frames)
+% INPUTS:       f1          - Reference frame number.
+%               f2          - Neighbour frame number.
 %               pixelSize   - A 1-2 vector representing the dimensions of
-%                           the pixelation in INPUT:'image1' and
-%                           INPUT:'image2'.
-%               boundary    - A 1-2 vector representing the minimum
-%                           proportion of each image dimension to be
-%                           considered as a potential overlap.
-% OUTPUTS:      v           - A 1-2 vector representing the relative
-%                           position of the lower-right most pixel in
-%                           INTPUT:'image2' to INPUT:'image1', which
-%                           maximised similarity.
-%               Sim         - Matrix of similarity measures from overlaps.
+%                             the pixelation in INPUT:'image1' and
+%                             INPUT:'image2'.
+%               minArea     - A 1-2 vector representing the minimum
+%                             area of the images considered as a potential
+%                             overlap.
+%               frames      - Structure containing a sorted list of frame
+%                             numbers and respective file names.
+% OUTPUTS:      v2          - A 1-2 vector representing the fine relative
+%                             position of the lower-right most pixel in
+%                             INTPUT:'image2' to INPUT:'image1', which
+%                             maximises similarity.
+%               NL          - String indicating where frame INTPUT:'f2'
+%                             appears in the composite image with respect
+%                             to frame INTPUT:'f1'.
+%               Sim         - Vector of similarity measures from overlaps.
 % REQUIRED:     EdgeDetector.m
 %               Pixelate.m
 %               SizeOfOL.m
 %               Overlap.m
 %               Similarity.m
 %               NeighbourLabel.m
-%               BuildFrameNameLookup.m
 %               ./images/
-tic
-frames = BuildFrameNameLookup([4]);
 image1 = imread(['images/',frames.fileName{find(frames.number==f1,1)}]);
 image2 = imread(['images/',frames.fileName{find(frames.number==f2,1)}]);
-fSpace1 = EdgeDetector(image1,10000);
-fSpace2 = EdgeDetector(image2,10000);
+fSpace1 = EdgeDetector(image1,threshold);
+fSpace2 = EdgeDetector(image2,threshold);
 fSpace1pix = Pixelate(fSpace1,pixelSize);
 fSpace2pix = Pixelate(fSpace2,pixelSize);
 TotalOL = (size(fSpace1pix)+size(fSpace2pix))./pixelSize-[1,1];
 index = uint16(zeros(prod(TotalOL),2));
-index(:,2) = uint16(repmat([1:TotalOL(2)]',TotalOL(1),1));
+index(:,2) = uint16(repmat(transpose(1:TotalOL(2)),TotalOL(1),1));
 index(:,1) = cumsum(index(:,2)==1);
 validOL = prod(SizeOfOL(index,pixelSize,...
         [size(fSpace1pix);size(fSpace2pix)]),2)>=...
@@ -63,7 +65,7 @@ for    k = 1:length(validInd)
 end
 v = index(Sim==max(Sim),:).*uint16(pixelSize);
 index2 = uint16(zeros(prod(pixelSize),2));
-index2(:,2) = uint16(repmat([1:pixelSize(2)]',pixelSize(1),1));
+index2(:,2) = uint16(repmat(transpose(1:pixelSize(2)),pixelSize(1),1));
 index2(:,1) = cumsum(index2(:,2)==1);
 Sim2 = zeros(size(index2,1),1);
 for     k = 1:length(Sim2)
@@ -74,4 +76,4 @@ for     k = 1:length(Sim2)
 	Sim2(k) = Similarity(overlap1,overlap2);
 end
 v2 = v-1+index2(Sim2==max(Sim2),:);
-toc
+OLSize = SizeOfOL(v2,[1,1],[size(image1);size(image2)]);
