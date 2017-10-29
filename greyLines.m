@@ -15,12 +15,8 @@ maxImage=length(fl);
 
 for image=1:maxImage
     imageMatrix=imread(strcat('./images/',fl(image).name));
-    [row,col]=size(imageMatrix);
-    for i=3:-1:1
-        for j=1:col
-            imageMatrix(i,j)=imageMatrix(i+1,j)-300;%arbitrary -300, otherwise, they are lighter than the copied rows
-        end
-    end
+    imageMatrix(1,:)=[];
+    imageMatrix(2,:)=[];
     imwrite(imageMatrix,strcat('noGreyLines/',fl(image).name),'tif')
 end
 
