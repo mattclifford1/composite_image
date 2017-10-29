@@ -1,4 +1,4 @@
-function [v,v2] = FindMapping(image1,image2,pixelSize,minArea,position)
+function [v,v2,Sim] = FindMapping(image1,image2,pixelSize,minArea,position)
 % INPUTS:       image1      - Reference image.
 %               image2      - Neighbour image.
 %               pixelSize   - A 1-2 vector representing the dimensions of
