@@ -13,8 +13,17 @@ sim2 = get_sim(im2, im2, [s2(1), 2*s2(2)]);
 minSim = (sim1 + sim2)/100;
 count = 1;
 while sim < minSim
+    V = randV(VV, s2);
+    if count == 1
+        V = [450, 550];
+        VV(1,:) = V;
+    end
+    sim = get_sim(im1, im2, V);
+    neighbours = neighbourFind(im1, im2, V);
+    [neighbour, ind] = max(neighbours);
+    
     while  neighbour > sim
-        V
+        V;
         if abs( V(1) - s2(1)) > s2(1) ||  abs( V(2) - s2(2)) > s2(2)
             V = randV(VV, s2);
         end
@@ -31,9 +40,11 @@ while sim < minSim
         end
         neighbours = neighbourFind(im1, im2, V);
         [neighbour, ind] = max(neighbours);
-        neighbour 
-        sim
-        minSim
+        neighbours;
+        neighbour; 
+        sim;
+        minSim;
+        V;
         count = count + 1;
         VV(count,:) = V;
     end
