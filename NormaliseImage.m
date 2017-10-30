@@ -17,11 +17,16 @@ function [ corrected ] = NormaliseImage( finalMatrix, row, col )
     end
     fileName = findFullName(finalMatrix(row,col));
     source = imread(strcat('./images/',fileName));
-%     figure;
-%     imshow(source);
+
     
     corrected = im2uint16(histeq(im2double(source), hist(im2double(reference(:)),...
     max(max(reference))-min(min(reference)))));
-%     imshow(corrected);
+    figure;
+    subplot(1,2,1);
+    imshow(source);
+    title('The original Image');
+    subplot(1,2,2);
+    imshow(corrected);
+    title('The corrected Image');
 end
 
