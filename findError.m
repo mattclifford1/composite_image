@@ -1,4 +1,4 @@
-function Location = findError(ExposureMatrix,FullMatrix)
+function [Location,Frames] = findError(ExposureMatrix,FullMatrix)
     Intensity = ExposureMatrix;
     rows = size(Intensity,1);
     cols = size(Intensity,2);
@@ -13,6 +13,7 @@ function Location = findError(ExposureMatrix,FullMatrix)
                  if Intensity(y,x) ~= 0
                      errCount = errCount + 1;
                      Location(errCount,:) = [y,x];
+                     Frames(errCount) = FullMatrix(y,x);
                  end
              end
        end
