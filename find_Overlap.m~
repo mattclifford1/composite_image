@@ -6,17 +6,19 @@ V = [450, 450];
 VV = V;
 sim = 0; 
 neighbour = 1;
-sim1 = get_sim(im1, im1, [s1(1), 2*s1(2)]);
-sim2 = get_sim(im2, im2, [s1(1), 2*s2(2)]);
-minSim = (sim1 + sim2)/20;
-count = 1;
-while sim < minSim
-    sim = get_sim(im1, im2, V);
+sim1 = get_sim(im1, im1, [0, s1(2)]);
+sim2 = get_sim(im2, im2, [0, s2(2)]);
+minSim = (sim1 + sim2)/2;
+count = 1
+while sim < neighbour && sim < minSim
+    fprint(count)
+    sim = get_sim(im1, im2, V)
     nUp = get_sim(im1, im2, V + [-1, 0]);
     nDown = get_sim(im1, im2, V + [1, 0]);
     nRight = get_sim(im1, im2, V + [0, -1]);
     nLeft = get_sim(im1, im2, V + [0, 1]);
-    neighbours = [nUp, nDown, nRight, nLeft];
+    fprint(count)
+    neighbours = [nUp, nDown, nRight, nLeft]
     [neighbour, ind] = max(neighbours);
     while neighbour > sim
         if ind == 1
@@ -52,9 +54,8 @@ while sim < minSim
             end
         end
     end
-    VV = [VV;V];
-    sim;
-    count = count +1;
+    VV = [VV;V]
+    sim
 end
 plot(VV(:,1),VV(:,2))
 
