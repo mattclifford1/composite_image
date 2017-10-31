@@ -42,6 +42,8 @@ imshow(joint1);
 % subplot(2,1,2); 
 imshow(joint);
 
+
+
 threshold = 10000;
 E1 = EdgeDetector(Image1,threshold);
 E2 = EdgeDetector(Image2,threshold);

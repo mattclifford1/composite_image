@@ -1,6 +1,6 @@
 [FileMatrix,dontcare] = readFiles();
 EM = exposureMatrix();
-Loc = findError(EM);
+[Loc,frames] = findError(EM);
 ErrorNum = size(Loc,1);
 
 % for i=1:ErrorNum
