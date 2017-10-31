@@ -51,7 +51,7 @@ if abs(V(1)) <= s2(1) && abs(V(2)) <= s2(2)
     end
     %     close all
     %     imshow(Im1); figure; imshow(Im2);
-    sim = Similarity(Im1, Im2);
+    sim = Similarity(Im1, Im2, 5);
 else
     sim = 0;
 end
