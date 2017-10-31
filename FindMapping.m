@@ -1,4 +1,4 @@
-function [v2,NL,Sim,OLSize] = FindMapping(f1,f2,threshold,pixelSize,minArea,frames)
+function [v2,NL,Sim,OLSize] = FindMapping(f1,f2,threshold,pixelSize,minArea,W,frames)
 % INPUTS:       f1          - Reference frame number.
 %               f2          - Neighbour frame number.
 %               pixelSize   - A 1-2 vector representing the dimensions of
@@ -61,7 +61,7 @@ for    k = 1:length(validInd)
             [size(fSpace1pix);size(fSpace2pix)],1);
     overlap2 = Overlap(double(index(validInd(k),:)),fSpace2pix,pixelSize,...
             [size(fSpace1pix);size(fSpace2pix)],2);
-    Sim(validInd(k)) = uint32(Similarity(overlap1,overlap2));
+    Sim(validInd(k)) = uint32(Similarity(overlap1,overlap2,W));
 end
 v = index(Sim==max(Sim),:).*uint16(pixelSize);
 index2 = uint16(zeros(prod(pixelSize),2));
@@ -73,7 +73,7 @@ for     k = 1:length(Sim2)
             [size(fSpace1);size(fSpace2)],1);
 	overlap2 = Overlap(double(v-1+index2(k,:)),fSpace2,[1,1],...
             [size(fSpace2);size(fSpace2)],2);
-	Sim2(k) = Similarity(overlap1,overlap2);
+	Sim2(k) = Similarity(overlap1,overlap2,W);
 end
 v2 = v-1+index2(Sim2==max(Sim2),:);
 OLSize = SizeOfOL(v2,[1,1],[size(image1);size(image2)]);
