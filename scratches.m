@@ -1,10 +1,10 @@
-function scratches()
+function scratches(imageNB)
 fl= dir('./images/*.tif');   %list of all files with .tif extension
 fl(112)=[]; %This removes frame 4 from the list because it the same as frame 2
 maxImage=length(fl);
 
 
-originalImage=imread(strcat('./images/',findFullName(50)));
+originalImage=imread(strcat('./images/',findFullName(imageNB)));
 
 im=originalImage; %we will now be working with im
 imMean=mean2(im);
