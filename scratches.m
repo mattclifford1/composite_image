@@ -1,4 +1,4 @@
-function scratches(imageNB)
+function removed = scratches(imageNB)
 fl= dir('./images/*.tif');   %list of all files with .tif extension
 fl(112)=[]; %This removes frame 4 from the list because it the same as frame 2
 maxImage=length(fl);
@@ -26,10 +26,9 @@ end
 
 
 
-figure
-
-imshow(originalImage);
-title('Before')
+% figure
+% imshow(originalImage);
+% title('Before')
 
 
 [maxElemR,maxElemC]= find(originalImage == max(originalImage(:)));
@@ -99,9 +98,11 @@ for fRow=beginRow:endRow
     end
 end
 
-figure 
-imshow(originalImage);
-title('After')
+% figure 
+% imshow(originalImage);
+% title('After')
+removed = originalImage;
+
 
 
 

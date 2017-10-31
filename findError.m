@@ -9,7 +9,7 @@ function [Location,Frames] = findError(ExposureMatrix,FullMatrix)
     errCount = 0;
     for y=1:rows
        for x=1:cols
-             if Intensity(y,x) < IntensityMean(y)-(IntensityMean(y)/3) || Intensity(y,x) > IntensityMean(y)+(IntensityMean(y)/3) 
+             if Intensity(y,x) < IntensityMean(y)-(IntensityMean(y)/3) || Intensity(y,x) > IntensityMean(y)+(IntensityMean(y)/4) 
                  if Intensity(y,x) ~= 0
                      errCount = errCount + 1;
                      Location(errCount,:) = [y,x];
