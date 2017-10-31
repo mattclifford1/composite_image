@@ -1,18 +1,35 @@
-function [Render1,Render2] = MergeGrad(I1,I2,v)
+function [O1,O2] = MergeGrad(I1,I2,v,a)
+% INPUTS:       I1, I2      - Two input images with an overlap.
+%               v           - A vector showing the displacement of I2 over
+%                           I1 of where the overlap region is.
+%               a           - The method used to minimise the seam. The 
+%                           variable a will equal 1 when there is a single
+%                           horizontal or vertical curve in the overlap, a
+%                           will equal 2 when there are both a horizontal
+%                           and a vertical curve and a will equal 3 when
+%                           the curve is strictly diagonal.
+% OUTPUTS:      O1, O2      - Two output images with their edited overlap
+%                           regions.
 
-% [dI1dx,dI1dy,dI2dx,dI2dy] = FindGrad(I1,I2);
+I1(1,:) = I1(4,:);
+I1(2,:) = I1(4,:);
+I1(3,:) = I1(4,:);
+I2(1,:) = I2(4,:);
+I2(2,:) = I2(4,:);
+I2(3,:) = I2(4,:);
 
+% Sets i and j to the values in the vector
 i = v(1);
 j = v(2);
 
+
+
 if i > size(I1,1)    
-    disp(1)
     T1Sx = i - size(I2,1);
     T1Fx = size(I1,1);
     T2Sx = 1;
     T2Fx = size(I1,1) + size(I2,1) - i + 1;   
 else
-    disp(2)
     T1Sx = 1;
     T1Fx = i;
     T2Sx = size(I2,1) - i + 1;
@@ -20,64 +37,74 @@ else
 end
 
 if j > size(I1,2)
-    disp(3)
     T1Sy = j - size(I2,2);
     T1Fy = size(I1,2);
     T2Sy = 1; 
     T2Fy = size(I1,2) + size(I2,2) - j + 1;
 else
-    disp(4)
     T1Sy = 1;
     T1Fy = j;  
     T2Sy = size(I2,2) - j + 1; 
     T2Fy = size(I2,2);        
 end
 
-% disp(T1Sx)
-% disp(T1Fx)
-% disp(T1Sy)
-% disp(T1Fy)
-% disp(T2Sx)
-% disp(T2Fx)
-% disp(T2Sy)
-% disp(T2Fy)
-
 omega1 = I1(T1Sx:T1Fx,T1Sy:T1Fy);
 omega2 = I2(T2Sx:T2Fx,T2Sy:T2Fy);
 
+e = round(abs(double(omega1) - double(omega2))).^2;
 
-imshow(omega1)
-figure, imshow(omega2)
-% do1dx = dI1dx(T1Sx:T1Fx,T1Sy:T1Fy);
-% do2dx = dI2dx(T2Sx:T2Fx,T2Sy:T2Fy);
-% do1dy = dI1dy(T1Sx:T1Fx,T1Sy:T1Fy);
-% do2dy = dI2dy(T2Sx:T2Fx,T2Sy:T2Fy);
-
-% Fx = abs(do1dx+do2dx);
-% Fy = abs(do1dy+do2dy);
-
-e = round(abs(double(omega1) - double(omega2)));
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-MinSeam1y = FindPath(e);
-
-MinSeam1x = transpose(FindPath(transpose(e)));
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-MinSeam2x = ones(size(MinSeam1x)) - MinSeam1x;
-MinSeam2y = ones(size(MinSeam1y)) - MinSeam1y;
-
-MeanSeam1 = 0.5*(MinSeam1y + MinSeam1x);
-MeanSeam2 = 0.5*(MinSeam2y + MinSeam2x);
-
-disp(max(max(MeanSeam1)))
+if a ~= 3
+    
+    if a == 2 || size(e,1) >= size(e,2)
+        MinSeam1y = FindPath(e,1);
+        MinSeam2y = ones(size(MinSeam1y)) - MinSeam1y;
+    end
+    
+    if a == 2 || size(e,1) < size(e,2)
+        MinSeam1x = transpose(FindPath(transpose(e),1));
+        MinSeam2x = ones(size(MinSeam1x)) - MinSeam1x;
+    end
+    
+    if a==2 && i > size(I1,1)
+        MinSeam1x = ones(size(MinSeam1x)) - MinSeam1x;
+    end
+    
+    if a == 2
+        
+        MeanSeam1 = 0.5*(MinSeam1y + MinSeam1x);
+        MeanSeam2 = 0.5*(MinSeam2y + MinSeam2x);
+        
+    elseif size(e,1) > size(e,2)
+        
+        MeanSeam1 = MinSeam1y;
+        MeanSeam2 = MinSeam2y;
+        
+    else
+        
+        MeanSeam1 = MinSeam1x;
+        MeanSeam2 = MinSeam2x;  
+        
+    end
+    
+elseif size(e,1) >= size(e,2)
+    if (j>size(I1,2)&&i>size(I1,2))||(j<size(I1,2)&&i<size(I1,2))
+        MeanSeam1 = FindPath(e,3);
+        MeanSeam2 = ones(size(MeanSeam1)) - MeanSeam1;
+    else
+        MeanSeam1 = FindPath(e,2);
+        MeanSeam2 = ones(size(MeanSeam1)) - MeanSeam1;        
+    end
+else 
+    if (j>size(I1,2)&&i>size(I1,2))||(j<size(I1,2)&&i<size(I1,2))
+        MeanSeam1 = transpose(FindPath(transpose(e),2));
+        MeanSeam2 = ones(size(MeanSeam1)) - MeanSeam1;
+    else
+        MeanSeam1 = transpose(FindPath(transpose(e),3));
+        MeanSeam2 = ones(size(MeanSeam1)) - MeanSeam1;        
+    end    
+end
 
 figure, imshow(MeanSeam1)
-figure, imshow(MeanSeam2)
-
-disp(i)
-disp(j)
 
 if size(e,1) >= size(e,2)
     if j > size(I1,2)
@@ -95,11 +122,9 @@ end
 
 omega = uint16(omega);
 
-Render1 = I1;
-Render2 = I2;
+O1 = I1;
+O2 = I2;
 
-Render1(T1Sx:T1Fx,T1Sy:T1Fy) = omega;
-Render2(T2Sx:T2Fx,T2Sy:T2Fy) = omega;
-
-figure, imshow(omega)
+O1(T1Sx:T1Fx,T1Sy:T1Fy) = omega;
+O2(T2Sx:T2Fx,T2Sy:T2Fy) = omega;
 end
