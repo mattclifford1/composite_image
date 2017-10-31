@@ -42,7 +42,6 @@ if sd2 > sd1
     Im1 = Im1*sd2/sd1; %transform to new sd
     Im1 = Im1 + m1; %take mean back
 end
-
 Diff = Im2 - Im1;
 
 d = mean2(Diff);  %%% histeq
