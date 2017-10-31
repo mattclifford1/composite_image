@@ -1,4 +1,4 @@
-function [Vfine,Labels,simMaxVals,OLSizes] = FindMultipleMapping(f,threshold,pixelSize,minArea,W)
+function [Vfine,Labels,simMaxVals,OLSizes] = FindMultipleMapping(f,threshold,pixelSize,minArea,W,folder)
 % INPUTS:       f           - List of frame numbers.
 %               pixelSize   - A 1-2 vector representing the dimensions of
 %                             the pixelation in INPUT:'image1' and
@@ -27,7 +27,7 @@ simMaxVals = zeros(size(Vfine,1),1);
 OLSizes = zeros(length(f)-1,2);
 for     n = 1:size(Vfine,1)
     [v2,nl,sim,OL] = FindMapping(f(n),f(n+1),threshold,...
-            pixelSize,minArea,W,frames);
+            pixelSize,minArea,W,frames,folder);
     Labels{n} = nl;
     Vfine(n,:) = v2;
     simMaxVals(n) = max(sim);
