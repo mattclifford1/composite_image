@@ -71,6 +71,7 @@ while   max(Sim)==0 && ~cancel
     W = 1;
 end
 v = index(Sim==max(Sim),:).*uint16(pixelSize);
+v = uint16(floor(mean(v,1)));
 index2 = uint16(zeros(prod(pixelSize),2));
 index2(:,2) = uint16(repmat(transpose(1:pixelSize(2)),pixelSize(1),1));
 index2(:,1) = cumsum(index2(:,2)==1);
