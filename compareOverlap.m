@@ -1,23 +1,12 @@
-function ImR = compareOverlap(Im1, Im2, V)
-% assumes Im1 is to the left of Im2
-V = V - size(Im2);
-ImR = Im2;
-s1 = size(Im1); s2 = size(Im2);
+function [im1, im2] = compareOverlap(im1, im2, V)
+% V is vector from im1 to im2
 
-if V(1) > 0 
-    Im1 = Im1(V(1):end, V(2):end);
-    Im2 = Im2(1:(s2(1) - V(1) + 1), 1:(s2(2) - V(2) + 1));
-end
-if V(1) < 0
-    V = abs(V);
-    Im1 = Im1(1:(s1(1) -V(1) + 1), V(2):end);
-    Im2 = Im2(V(1):end, 1:(s2(2) - V(2))+ 1);
-end
-Im2 = int16(Im2); Im1 = int16(Im1); 
+[Im1, Im2] = returnOverlapReigon(im1, im2, V)  %get just overlap region
+Im2 = int16(Im2); Im1 = int16(Im1);   %we will need to work with negatives
 ss1 = size(Im1); ss2 = size(Im2);
-
-Im1 = double(Im1); Im2 = double(Im2);
+Im1 = double(Im1); Im2 = double(Im2);  %needed for mean2 function
 m1 = mean2(Im1); m2 = mean2(Im2);
+%calculate variance of both overlaps
 var1 = 0; var2 = 0;
 for i = 1: ss1(1)
     for j = 1: ss1(2)
@@ -31,20 +20,23 @@ for i = 1: ss2(1)
     end
 end
 var2 = var2/(ss2(1)*ss2(2));
-sd1 = sqrt(var1); sd2 = sqrt(var2);
+sd1 = sqrt(var1); sd2 = sqrt(var2);  %standard deviation of both overlaps
+% use the image with the biggest s.d.
 if sd1 > sd2
-    Im2 = Im2 - m2; %make mean 0
-    Im1 = Im1*sd1/sd2; %transform to new sd
-    Im2 = Im2 + m2; %take mean back
+    im2 = im2 - m2; %make mean 0
+    im2 = im1*sd1/sd2; %transform to new sd
+    im2 = im2 + m2; %take mean back
 end
 if sd2 > sd1
-    Im1 = Im1 - m1; %make mean 0
-    Im1 = Im1*sd2/sd1; %transform to new sd
-    Im1 = Im1 + m1; %take mean back
+    im1 = im1 - m1; %make mean 0
+    im1 = im1*sd2/sd1; %transform to new sd
+    im1 = im1 + m1; %take mean back
 end
-Diff = Im2 - Im1;
 
-d = mean2(Diff);  %%% histeq
-
-ImR = ImR - d;
-ImR = uint16(ImR);
+% 
+% Diff = Im2 - Im1;
+% 
+% d = mean2(Diff);  
+% 
+% ImR = ImR - d;
+% ImR = uint16(ImR);

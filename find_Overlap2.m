@@ -1,7 +1,7 @@
 function V = find_Overlap2(im1, im2)
 
 s1 = size(im1); s2 = size(im2);
-V = [randi(s2(1)), randi(s2(2))]
+V = [randi(s2(1)), randi(s2(2))];
 V = [440, 570];
 VV = zeros(s2(1)*s2(2),2);
 VV(1,:) = V;
@@ -10,7 +10,7 @@ oldSim = 0;
 neighbour = 1;
 sim1 = get_sim(im1, im1, [s1(1), 2*s1(2)]);
 sim2 = get_sim(im2, im2, [s2(1), 2*s2(2)]);
-minSim = (sim1 + sim2)/100;
+minSim = (sim1 + sim2)/100
 count = 1;
 while sim < minSim
     V = randV(VV, s2);
@@ -50,7 +50,7 @@ while sim < minSim
     end
 end
 figure
-plot(VV(:,1),VV(:,2))
+plot(VV(1:count,1),VV(1:count,2))
 
 
 
