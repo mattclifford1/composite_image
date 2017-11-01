@@ -1,6 +1,6 @@
 
 vertShift = 0; horiShift = 0;
-myFolder = strcat(pwd,'/images');
+myFolder = strcat(pwd,'/imagesRenamed');
 filePattern = fullfile(myFolder, '*.tif');
 tifFiles = dir(filePattern);
 baseFileName1 = tifFiles(1).name;
@@ -24,14 +24,15 @@ for j = 1:10
     shiftVect(33+j,:) = [a,d];
     shiftVect(44+j,:) = [a,c];
 end
-
-for i = 1:55%(length(tifFiles)) 
+shiftVect = VfineA
+for i = 1:14%(length(tifFiles)) 
     it = i
-    baseFileName1 = tifFiles(i).name; baseFileName2 = tifFiles(i).name;
+    baseFileName1 = tifFiles(i).name; baseFileName2 = tifFiles(i+1).name;
     fullFileName1 = fullfile(myFolder, baseFileName1); fullFileName2 = fullfile(myFolder, baseFileName2);
     Im1 = imread(fullFileName1); Im2 = imread(fullFileName2);
     if i == 1
-        [joint, Im2] = compareOverlap(joint, Im2, shiftVect(i,:));
+        joint = Im1;
+%         [joint, Im2] = compareOverlap(joint, Im2, shiftVect(i,:));
     else
 %         [Im1, Im2] = compareOverlap(Im1, Im2, shiftVect(i,:));
     end
