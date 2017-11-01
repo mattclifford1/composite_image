@@ -18,7 +18,7 @@ if Vcopy(2)+s2(2) - s1(2)  <= 0
     if V(2) >= 0  % Im2 doesn't go beyond left of Im1
         col = s1(2);
     else       %need new space to left of Im1
-        col = s1(2) - V(2);
+        col = s1(2) - V(2)
         leftSpace = 1;
     end
 else   %need new space to right of Im1
@@ -56,7 +56,7 @@ if V(2) <= 0    %Im1 to the right of Im2
                 joint(Va(1) + 1:Va(1) + s1(1), 1:s1(2)) = Im1(1:end, 1:end);
                 joint(1:s2(1), sj(2)+V(2)-s2(2)+1:sj(2) + V(2)) = Im2(1:end, 1:end);
             end
-            vertShift = V(1)
+            vertShift = V(1);
             s3 = size(joint);
             horiShift = s3(2) - s2(2);
         end 
@@ -76,7 +76,7 @@ if V(2) <= 0    %Im1 to the right of Im2
             joint(Va(1)+1:end, abs(V(2))+1:sj(2)) = Im1(1:end, 1:end);
             joint(1:s2(1), 1:s2(2)) = Im2(1:end, 1:end);
             horiShift = 0;
-            vertShift = vertShift;
+            vertShift = V(1)
         end
         %         vertShift = V(1);
         %         s3 = size(joint);
