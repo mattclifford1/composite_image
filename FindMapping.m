@@ -1,4 +1,4 @@
-function [v2,NL,Sim,OLSize] = FindMapping(f1,f2,threshold,pixelSize,minArea,W,frames)
+function [v2,NL,Sim,OLSize] = FindMapping(f1,f2,threshold,pixelSize,minArea,W,frames,folder)
 % INPUTS:       f1          - Reference frame number.
 %               f2          - Neighbour frame number.
 %               pixelSize   - A 1-2 vector representing the dimensions of
@@ -24,8 +24,8 @@ function [v2,NL,Sim,OLSize] = FindMapping(f1,f2,threshold,pixelSize,minArea,W,fr
 %               Similarity.m
 %               NeighbourLabel.m
 %               ./images/
-image1 = imread(['images/',frames.fileName{find(frames.number==f1,1)}]);
-image2 = imread(['images/',frames.fileName{find(frames.number==f2,1)}]);
+image1 = imread([folder,frames.fileName{find(frames.number==f1,1)}]);
+image2 = imread([folder,frames.fileName{find(frames.number==f2,1)}]);
 fSpace1 = EdgeDetector(image1,threshold);
 fSpace2 = EdgeDetector(image2,threshold);
 fSpace1pix = Pixelate(fSpace1,pixelSize);
@@ -56,12 +56,19 @@ elseif  ~strcmp(NL,'')
 end
 validInd = find(validOL);
 Sim = uint32(zeros(size(index,1),1));
-for    k = 1:length(validInd)
-    overlap1 = Overlap(double(index(validInd(k),:)),fSpace1pix,pixelSize,...
-            [size(fSpace1pix);size(fSpace2pix)],1);
-    overlap2 = Overlap(double(index(validInd(k),:)),fSpace2pix,pixelSize,...
-            [size(fSpace1pix);size(fSpace2pix)],2);
-    Sim(validInd(k)) = uint32(Similarity(overlap1,overlap2,W));
+cancel = 0;
+while   max(Sim)==0 && ~cancel
+    for     k = 1:length(validInd)
+        overlap1 = Overlap(double(index(validInd(k),:)),fSpace1pix,pixelSize,...
+                [size(fSpace1pix);size(fSpace2pix)],1);
+        overlap2 = Overlap(double(index(validInd(k),:)),fSpace2pix,pixelSize,...
+                [size(fSpace1pix);size(fSpace2pix)],2);
+        Sim(validInd(k)) = uint32(Similarity(overlap1,overlap2,W));
+    end
+    if      W==1
+        cancel = 1;
+    end
+    W = 1;
 end
 v = index(Sim==max(Sim),:).*uint16(pixelSize);
 index2 = uint16(zeros(prod(pixelSize),2));
