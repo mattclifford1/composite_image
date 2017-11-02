@@ -58,6 +58,9 @@ if a ~= 3
     
     if a == 2 || size(e,1) >= size(e,2)
         [MinSeam1y,Vis1] = FindPath(e,1,c);
+        if a==2 && j < size(I1,2)
+            MinSeam1y = ones(size(MinSeam1y)) - MinSeam1y;
+        end
         MinSeam2y = ones(size(MinSeam1y)) - MinSeam1y;
     end
     
