@@ -41,8 +41,8 @@ testImagePix = testImagePix./prod(pixelSize);
 
 
 %%
-Image3 = imread('Frame 298 X -21882921 nm & Y 514852 nm.tif');
-Image4 = imread('Frame 302 X -21880926 nm & Y 514846 nm.tif');
+Image3 = imread('Frame 28 X -21896921 nm & Y 532852 nm.tif');
+Image4 = imread('Frame 32 X -21898925 nm & Y 532858 nm.tif');
 %%
 preProcImage3 = Pixelate(EdgeDetector(Image3,10000),[4,4]);
 preProcImage4 = Pixelate(EdgeDetector(Image4,10000),[4,4]);

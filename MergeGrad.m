@@ -108,7 +108,6 @@ else
     end    
 end
 
-
 if size(e,1) >= size(e,2)
     if j > size(I1,2)
         omega = double(omega1).*(MeanSeam1) + double(omega2).*(MeanSeam2);

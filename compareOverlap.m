@@ -1,8 +1,9 @@
 function [im1, im2] = compareOverlap(im1, im2, V)
 % V is vector from im1 to im2
-
-[Im1, Im2] = returnOverlapReigon(im1, im2, V)  %get just overlap region
+IM1 = im1; IM2 = im2;
+[Im1, Im2] = returnOverlapReigon(im1, im2, V);  %get just overlap region
 Im2 = int16(Im2); Im1 = int16(Im1);   %we will need to work with negatives
+
 ss1 = size(Im1); ss2 = size(Im2);
 Im1 = double(Im1); Im2 = double(Im2);  %needed for mean2 function
 m1 = mean2(Im1); m2 = mean2(Im2);
@@ -33,10 +34,9 @@ if sd2 > sd1
     im1 = im1 + m1; %take mean back
 end
 
-% 
-% Diff = Im2 - Im1;
-% 
-% d = mean2(Diff);  
-% 
-% ImR = ImR - d;
-% ImR = uint16(ImR);
+
+Diff = Im2 - Im1;
+
+d = mean2(Diff);  
+im2 = IM2 - d;
+im2 = uint16(im2); im1 = uint16(IM1);
