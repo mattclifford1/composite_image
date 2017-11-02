@@ -4,6 +4,7 @@ EM = ExposureVariable();
 ErrorNum = size(Loc,1);
 
 ErrCount = 1;
+diff = zeros(ErrorNum,1);
 for j=1:size(FileMatrix,1)
     for i=1:size(FileMatrix,2)
             if FileMatrix(j,i) == 0
@@ -11,8 +12,9 @@ for j=1:size(FileMatrix,1)
             elseif ErrCount <= ErrorNum && j == Loc(ErrCount,1) && i == Loc(ErrCount,2)
                 Name = findFullName(FileMatrix(j,i));
                 removed = scratches(frames(ErrCount));
-%                 Corrected = NormaliseImage(FileMatrix,j,i,Image);
-                imwrite(removed,strcat('noscratch/',Name));
+                diff(ErrCount) = 2^16-1-max(max(removed));
+                a = double(max(max(removed)))/(2^16-1);
+                imwrite(uint16(floor(double(removed).*(1+a))),strcat('noscratch/',Name));
                 ErrCount = ErrCount + 1;
             else
                 Name = findFullName(FileMatrix(j,i));
@@ -23,6 +25,7 @@ for j=1:size(FileMatrix,1)
     end
 
 end
+
 
 ErrCount = 1;
 for j=1:size(FileMatrix,1)
