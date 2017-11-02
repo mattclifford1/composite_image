@@ -1,4 +1,4 @@
-function [MinSeam1,MinPath] = FindPath(e,b)
+function [MinSeam1,Vis] = FindPath(e,b,c)
 
 E = zeros(size(e,1),size(e,2),2);
 
@@ -41,12 +41,19 @@ else
     MinPath = E(end,end,1);   
 end
 
+Vis = MinPath;
+
 for yr = 1:size(e,1)
     line = 1;
     y = 1-yr+size(e,1);
     for x = 1:size(e,2)
         if yr==1
             if E(y,x,1) == MinPath
+                if c == 1
+                    Vis = Vis + sum(e(y,x:end)) - e(y,x);
+                else
+                    Vis = Vis + sum(e(y,1:x)) - e(y,x);
+                end
                 line = 0;
                 if y~=1
                     Coordinate = x+(E(y,x,2));
@@ -56,6 +63,12 @@ for yr = 1:size(e,1)
             line = 0;
             if y~=1
                 Coordinate = x+(E(y,x,2));
+            else
+                if c == 1
+                    Vis = Vis + sum(e(y,1:x)) - e(y,x);
+                else
+                    Vis = Vis + sum(e(y,x:end)) - e(y,x);
+                end
             end
         end
         MinSeam1(y,x) = line;

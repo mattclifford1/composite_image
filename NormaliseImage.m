@@ -7,7 +7,7 @@ function [ corrected ] = NormaliseImage( finalMatrix, row, col,source )
     for i = col-3:col+3
         if i >= 1 && i <= size(finalMatrix,2) && finalMatrix(row,i) ~= 0 && i ~= col
             fileName = findFullName(finalMatrix(row,i));
-            Im = imread(strcat('./images/',fileName));
+            Im = imread(strcat('./noscratch/',fileName));
             if reference == 0
                 reference = Im;
             else
