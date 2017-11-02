@@ -104,7 +104,7 @@ else
     end    
 end
 
-figure, imshow(MeanSeam1)
+% figure, imshow(MeanSeam1)
 
 if size(e,1) >= size(e,2)
     if j > size(I1,2)
