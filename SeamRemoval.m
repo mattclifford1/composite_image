@@ -1,0 +1,1 @@
+function [] = SeamRemoval(folder,v)
