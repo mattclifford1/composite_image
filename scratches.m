@@ -4,6 +4,7 @@ fl(112)=[]; %This removes frame 4 from the list because it the same as frame 2
 maxImage=length(fl);
 
 
+
 originalImage=imread(strcat('./images/',findFullName(imageNB)));
 
 im=originalImage; %we will now be working with im
