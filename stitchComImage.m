@@ -46,7 +46,7 @@ for i = 1:248%(length(tifFiles))
     [joint, vertShift, horiShift] = stitch(joint, Im2, shiftVect(i,:), vertShift, horiShift);
     vertShift;
     horiShift;
-    imshow(joint);
+%     imshow(joint);
 end
 % imshow(joint)
 m = max(max(joint));
