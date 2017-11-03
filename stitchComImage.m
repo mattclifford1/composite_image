@@ -1,8 +1,9 @@
 
 vertShift = 0; horiShift = 0;
-myFolder = strcat(pwd,'/imagesRenamed2');
+myFolder = strcat(pwd,'/images/');
 % myFolder = strcat(pwd,'/uncompressed');
-myFolder = strcat(pwd,'/noscratch/');
+% myFolder = strcat(pwd,'/noscratch/');
+% myFolder = strcat(pwd,'/noSeam3/');
 filePattern = fullfile(myFolder, '*.tif');
 tifFiles = dir(filePattern);
 baseFileName1 = tifFiles(1).name;
@@ -41,16 +42,16 @@ for i = 1:length(tifFiles)-1
     if i == 1
         joint = Im1;
         [Im1, Im2] = compareOverlap(joint, Im2, shiftVect(i,:));   %re-adjust exposures
-%         [joint, Im2] = MergeGrad(Im1, Im2, shiftVect(i,:), mergeType);     %merge overlap
+        [joint, Im2] = MergeGrad(Im1, Im2, shiftVect(i,:), mergeType);     %merge overlap
     else
 %         V = shiftVect(i,:) + [vertShift, horiShift];
         [Im1, Im2] = compareOverlap(Im1, Im2, shiftVect(i,:));   %re-adjust exposures
-%         [Im1, Im2] = MergeGrad(Im1, Im2, shiftVect(i,:), mergeType);     %merge overlap
+        [Im1, Im2] = MergeGrad(Im1, Im2, shiftVect(i,:), mergeType);     %merge overlap
     end
     [joint, vertShift, horiShift] = stitch(joint, Im2, shiftVect(i,:), vertShift, horiShift);
     vertShift;
     horiShift;
-    imshow(joint);
+%     imshow(joint);
 end
 % imshow(joint)
 m = max(max(joint));
