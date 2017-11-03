@@ -1,4 +1,4 @@
-function [im1, im2] = compareOverlap(im1, im2, V)
+function [im1, im2, d] = compareOverlap(im1, im2, V)
 % V is vector from im1 to im2
 IM1 = im1; IM2 = im2;
 [Im1, Im2] = returnOverlapReigon(im1, im2, V);  %get just overlap region

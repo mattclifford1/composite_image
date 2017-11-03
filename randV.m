@@ -10,8 +10,9 @@ range2 = max2 - min2;
 
 % V = [randi(s2(1)), randi(s2(2))];
 VR = [randi(range1), randi(range2)];
-Vnew = VR + [min1, min2]
+Vnew = VR + [min1, min2];
+Vnew = [randi(s2(1)*2), randi(s2(2)*2)];
 while ismember(Vnew ,VV, 'rows') == 1
     VR = [randi(s2(1)), randi(s2(2))];
-    Vnew = VR + [min1, min2]
+    Vnew = VR + [min1, min2];
 end
