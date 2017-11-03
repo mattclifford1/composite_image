@@ -12,8 +12,8 @@ function [O1,O2,Vis] = MergeGrad(I1,I2,v,a)
 %                           regions.
 
 % Sets i and j to the values in the vector
-i = size(I2,1)-v(1);
-j = size(I2,1)+v(2);
+i = v(1);
+j = v(2);
 
 if i > size(I1,1)   
     p = 1;
@@ -105,7 +105,7 @@ else
         MeanSeam1 = transpose(MeanSeam1);
         MeanSeam2 = ones(size(MeanSeam1)) - MeanSeam1;
     else
-        [MeanSeam1,Vis] = transpose(FindPath(transpose(e),3,c));
+        [MeanSeam1,Vis] = FindPath(transpose(e),3,c);
         MeanSeam1 = transpose(MeanSeam1);
         MeanSeam2 = ones(size(MeanSeam1)) - MeanSeam1;        
     end    
