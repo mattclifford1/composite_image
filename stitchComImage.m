@@ -29,7 +29,7 @@ end
 shiftVect = DATA.vector;
 shiftVect(15,:) = [516,216]; 
 load('frameNameLookup.mat');
-for i = 1:249 
+for i = 1:length(tifFiles)-1
     it = i
 %     baseFileName1 = tifFiles(i).name; baseFileName2 = tifFiles(i+1).name;
 %     fullFileName1 = fullfile(myFolder, baseFileName1); fullFileName2 = fullfile(myFolder, baseFileName2);
@@ -50,7 +50,7 @@ for i = 1:249
     [joint, vertShift, horiShift] = stitch(joint, Im2, shiftVect(i,:), vertShift, horiShift);
     vertShift;
     horiShift;
-%     imshow(joint);
+    imshow(joint);
 end
 % imshow(joint)
 m = max(max(joint));
@@ -59,4 +59,3 @@ s = m1/m;
 joint1 = joint * s;
 figure
 imshow(joint1)
-length(tifFiles)
