@@ -10,16 +10,17 @@ tifFiles = dir(filePattern);
 
 shiftVect = DATA.vector;
 load('frameNameLookup.mat');
-for i = 1:length(tifFiles)-2
+x = 1
+for i = x:length(tifFiles)-2
     it = i
     Im1 = imread([myFolder, frames.fileName{i}]);
     Im2 = imread([myFolder, frames.fileName{i+1}]);
     mergeType = 3;  
-    if i == 1
+    if i == x
         joint = Im1;
         Im2R = Im2;
-        [Im1, Im2R, d] = compareOverlap(joint, Im2, shiftVect(i,:));   %re-adjust exposures
-        [joint, Im2] = MergeGrad(Im1R, Im2R, shiftVect(i,:), mergeType);     %merge overlap
+%         [Im1, Im2, d] = compareOverlap(joint, Im2, shiftVect(i,:));   %re-adjust exposures
+%         [joint, Im2] = MergeGrad(Im1R, Im2R, shiftVect(i,:), mergeType);     %merge overlap
         previousIm = Im2;
     else
         Im1R = Im1 - d;   %update correction
@@ -30,7 +31,7 @@ for i = 1:length(tifFiles)-2
     [joint, vertShift, horiShift] = stitch(joint, Im2, shiftVect(i,:), vertShift, horiShift);
     vertShift;
     horiShift;
-    imshow(joint );
+%     imshow(joint );
 end
 % imshow(joint)
 m = max(max(joint));
